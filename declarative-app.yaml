@@ -22,6 +22,8 @@ spec:
   namespaceResourceWhitelist:
   - group: 'apps'
     kind: Deployment
+  - group: ''
+    kind: Service
   #roles:
   #- name: read-only
   #  description: Read-only privileges to my-project
