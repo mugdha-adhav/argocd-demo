@@ -66,6 +66,8 @@ spec:
     repoURL: https://github.com/mugdha-adhav/argocd-demo.git
     targetRevision: HEAD
     chart: demo-artefact-wrapper
+    helm:
+      releaseName: demo-artefact-wrapper
   destination:
     server: https://kubernetes.default.svc
     namespace: demo-wrapper
