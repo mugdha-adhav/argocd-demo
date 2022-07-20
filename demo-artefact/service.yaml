@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: demo-svc
+spec:
+  selector:
+    app: demo-tag
+  ports:
+  - name: demo-service-port-name
+    protocol: TCP
+    port: 80
+    targetPort: nginx-service

@@ -5,7 +5,6 @@ Follow [this](https://argo-cd.readthedocs.io/en/stable/getting_started/) well wr
 To install apps declaratively, please refer to [declarative-app.yaml](declarative-app.yaml) file which installs guestbook application by setting up basic project.
 
 ### TODO
-- Add simple application with demo deployment in this repository.
 - Create helm chart for the demo application.
 - Update [declarative-app.yaml](declarative-app.yaml) file to use the demo application instead of guestbook.
 - Create another sample application in a separate private repository with a helm chart.
