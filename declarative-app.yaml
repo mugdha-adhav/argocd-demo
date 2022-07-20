@@ -13,6 +13,8 @@ spec:
   destinations:
   - namespace: demo-store
     server: https://kubernetes.default.svc
+  - namespace: demo-wrapper
+    server: https://kubernetes.default.svc
   clusterResourceWhitelist:
   - group: ''
     kind: Namespace
@@ -24,6 +26,8 @@ spec:
     kind: Deployment
   - group: ''
     kind: Service
+  - group: ''
+    kind: ServiceAccount
   #roles:
   #- name: read-only
   #  description: Read-only privileges to my-project
@@ -48,3 +52,20 @@ spec:
   destination:
     server: https://kubernetes.default.svc
     namespace: demo-store
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: demo-artefact-wrapper
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: demo-market
+  source:
+    repoURL: https://github.com/mugdha-adhav/argocd-demo.git
+    targetRevision: HEAD
+    chart: demo-artefact-wrapper
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: demo-wrapper
