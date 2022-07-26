@@ -9,15 +9,18 @@ spec:
   description: Project for demo applications
   sourceRepos:
   - '*'
-  # Only permit applications to deploy to the demo-store namespace in the same cluster
   destinations:
   - namespace: demo-store
     server: https://kubernetes.default.svc
   - namespace: demo-wrapper
     server: https://kubernetes.default.svc
+  - namespace: demo-dashboard
+    server: https://kubernetes.default.svc
   clusterResourceWhitelist:
   - group: ''
-    kind: Namespace
+    kind: 'Namespace'
+  - group: rbac.authorization.k8s.io
+    kind: '*'
   namespaceResourceBlacklist:
   - group: ''
     kind: NetworkPolicy
@@ -25,9 +28,10 @@ spec:
   - group: 'apps'
     kind: Deployment
   - group: ''
-    kind: Service
-  - group: ''
-    kind: ServiceAccount
+    kind: '*'
+  - group: rbac.authorization.k8s.io
+    kind: '*'
+
   #roles:
   #- name: read-only
   #  description: Read-only privileges to my-project
@@ -77,3 +81,28 @@ spec:
   destination:
     server: https://kubernetes.default.svc
     namespace: demo-wrapper
+---
+# Deploy public helm chart
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: demo-k8s-dashboard
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      allowEmpty: true
+      selfHeal: true
+  project: demo-market
+  source:
+    repoURL: https://kubernetes.github.io/dashboard
+    targetRevision: 5.7.0
+    chart: kubernetes-dashboard
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: demo-dashboard
